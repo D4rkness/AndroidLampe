@@ -1,0 +1,103 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mainBackground"
+    tools:context="com.example.olsk7422.lampe.Modus">
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/margintop"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/paddingsites"
+        android:paddingRight="@dimen/paddingsites">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:weightSum="2"
+            android:layout_height="@dimen/settingbtn">
+
+            <Button
+                android:text="Set All"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/btnSetAll"
+                android:layout_weight="1"
+                android:textSize="24sp" />
+
+            <Button
+                android:text="Fade Selected"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/btnAccFade"
+                android:layout_weight="1"
+                android:textSize="24sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:weightSum="2"
+            android:layout_height="@dimen/settingbtn">
+            <Button
+                android:text="Stars"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/btnRandomStars"
+                android:layout_weight="1"
+                android:textSize="24sp" />
+            <Button
+                android:text="Climb"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/btnSlowClimb"
+                android:layout_weight="1"
+                android:textSize="24sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:weightSum="2"
+            android:layout_height="@dimen/settingbtn">
+            <Button
+                android:text="Random Fade"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/btnRandomFade"
+                android:layout_weight="1"
+                android:textSize="24sp" />
+            <Button
+                android:text="Rainbow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/btnRainbow"
+                android:layout_weight="1"
+                android:textSize="24sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:weightSum="2"
+            android:layout_height="@dimen/settingbtn">
+            <Button
+                android:text="Sound Height"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/btnSoundToHeight"
+                android:layout_weight="1"
+                android:textSize="24sp" />
+            <Button
+                android:text="Sound Bright"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/btnSoundToBrightness"
+                android:layout_weight="1"
+                android:textSize="24sp" />
+        </LinearLayout>s
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>

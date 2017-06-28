@@ -4,6 +4,7 @@ package com.example.olsk7422.lampe;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,7 @@ public class Settings extends android.support.v4.app.Fragment implements Observe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 try {
+                    Toast.makeText(myView.getContext(), "Trying to connect",Toast.LENGTH_LONG).show();
                     BluetoothHandler.getInstance().connect(position);
                 } catch (BluetoothHandlerException e) {
                     if(e.getError() == BluetoothExceptions.NO_LAMP){
@@ -79,13 +81,21 @@ public class Settings extends android.support.v4.app.Fragment implements Observe
 
     @Override
     public void update(Observable o, Object arg) {
-        if(BluetoothHandler.getInstance().getIsConnected()){
-            btnStatus.setBackgroundColor(Color.GREEN);
-            btnStatus.setText("Connected");
-        }else{
-            btnStatus.setBackgroundColor(Color.RED);
-            btnStatus.setText("No Connection");
-        }
+        Handler mainHandler = new Handler(getContext().getMainLooper());
+
+        Runnable myRunnable = new Runnable() {
+            @Override
+            public void run() {if(BluetoothHandler.getInstance().getIsConnected()){
+                btnStatus.setBackgroundColor(Color.GREEN);
+                btnStatus.setText("Connected");
+            }else{
+                btnStatus.setBackgroundColor(Color.RED);
+                btnStatus.setText("No Connection");
+            }}
+        };
+        mainHandler.post(myRunnable);
+
+
 
     }
 }

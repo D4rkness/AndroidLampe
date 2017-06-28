@@ -5,5 +5,5 @@ package com.example.olsk7422.lampe;
  */
 
 public enum BluetoothExceptions {
-    NO_CONNECTION, BLUETOOTH_OFF, NO_LAMP
+    NO_CONNECTION, BLUETOOTH_OFF, NO_LAMP, CONNECTION_FAILED
 }

@@ -2,15 +2,19 @@ package com.example.olsk7422.lampe;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.util.Log;
+import android.widget.Toast;
 
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Set;
+import java.util.UUID;
 
 
 public class BluetoothHandler extends Observable {
@@ -20,28 +24,31 @@ public class BluetoothHandler extends Observable {
     private BluetoothAdapter BA;
     private Set<BluetoothDevice> pairedDevices;
     private ArrayList bluetoothDeviceListe;
+    private static final UUID SPP_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private BluetoothSocket socket = null;
+    private boolean connectionRunning = false;
 
     public BluetoothHandler() {
         isConnected = true;
         BA = BluetoothAdapter.getDefaultAdapter();
     }
 
-    public void connect(int possition) throws BluetoothHandlerException {
-        Log.d("BluetoothHandler:", "Connecting to: " + bluetoothDeviceListe.get(possition));
-        if (!bluetoothDeviceListe.get(possition).equals("BA1")) {
-            throw new BluetoothHandlerException(BluetoothExceptions.NO_LAMP);
-        }else{
-            String bluetoothAdress="";
-            for(BluetoothDevice bt: pairedDevices){
-                if(bt.getName().equals("BA1")){
-                    bluetoothAdress = bt.getAddress();
-                    Log.d("BluetoothHandler","Connecting to: "+ bluetoothAdress);
+    public void connect(int position) throws BluetoothHandlerException {
+        if(!connectionRunning){
+            Log.d("BluetoothHandler:", "Connecting to: " + bluetoothDeviceListe.get(position));
+            if (!bluetoothDeviceListe.get(position).equals("BA1")) {
+                throw new BluetoothHandlerException(BluetoothExceptions.NO_LAMP);
+            }else{
+                BluetoothDevice device = null;
+                for(BluetoothDevice bt: pairedDevices){
+                    if(bt.getName().equals("BA1")){
+                        Log.d("BluetoothHandler","Connecting to: "+bt.getAddress());
+                        new ConnectionThread(bt).start();
+                        break;
+                    }
                 }
             }
-
-
         }
-
 
     }
 
@@ -123,4 +130,28 @@ public class BluetoothHandler extends Observable {
         return instance;
     }
 
+    private class ConnectionThread extends Thread {
+
+        BluetoothDevice btDevice;
+
+        public ConnectionThread(BluetoothDevice btDevice){
+            this.btDevice = btDevice;
+            connectionRunning = true;
+        }
+
+        public void run() {
+            try {
+                socket = btDevice.createInsecureRfcommSocketToServiceRecord(SPP_UUID);
+                socket.connect();
+                isConnected = true;
+                setChanged();
+                notifyObservers();
+            } catch (IOException e) {
+                Log.e("Bluetoothhandler","connect no socket available");
+            }finally {
+                connectionRunning = false;
+            }
+        }
+
+    }
 }

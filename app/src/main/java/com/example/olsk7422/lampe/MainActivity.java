@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private Modus modusFragment;
     private ColorWheel colorWheelFragment;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         settingsFragment = new Settings();
         modusFragment = new Modus();
         colorWheelFragment = new ColorWheel();
-
+        BluetoothHandler.getInstance().addObserver(settingsFragment);
 
     }
 

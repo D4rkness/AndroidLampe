@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 
 /**
@@ -32,49 +33,97 @@ public class Modus extends android.support.v4.app.Fragment {
         myView.findViewById(R.id.btnSetAll).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BluetoothHandler.getInstance().sendMode(LEDMOUDS.SETALL);
+                try {
+                    BluetoothHandler.getInstance().sendMode(LEDMOUDS.SETALL);
+                } catch (BluetoothHandlerException e) {
+                    if(e.getError() == BluetoothExceptions.NO_CONNECTION){
+                        Toast.makeText(myView.getContext(), "Lamp not connected",Toast.LENGTH_LONG).show();
+                    }
+                }
             }
         });
         myView.findViewById(R.id.btnAccFade).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BluetoothHandler.getInstance().sendMode(LEDMOUDS.FADESELECTE);
+                try {
+                    BluetoothHandler.getInstance().sendMode(LEDMOUDS.FADESELECTE);
+                } catch (BluetoothHandlerException e) {
+                    if(e.getError() == BluetoothExceptions.NO_CONNECTION){
+                        Toast.makeText(myView.getContext(), "Lamp not connected",Toast.LENGTH_LONG).show();
+                    }
+                }
             }
         });
         myView.findViewById(R.id.btnRandomStars).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BluetoothHandler.getInstance().sendMode(LEDMOUDS.STARS);
+                try {
+                    BluetoothHandler.getInstance().sendMode(LEDMOUDS.STARS);
+                } catch (BluetoothHandlerException e) {
+                    if(e.getError() == BluetoothExceptions.NO_CONNECTION){
+                        Toast.makeText(myView.getContext(), "Lamp not connected",Toast.LENGTH_LONG).show();
+                    }
+                }
             }
         });
         myView.findViewById(R.id.btnSlowClimb).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BluetoothHandler.getInstance().sendMode(LEDMOUDS.CLIMB);
+                try {
+                    BluetoothHandler.getInstance().sendMode(LEDMOUDS.CLIMB);
+                } catch (BluetoothHandlerException e) {
+                    if(e.getError() == BluetoothExceptions.NO_CONNECTION){
+                        Toast.makeText(myView.getContext(), "Lamp not connected",Toast.LENGTH_LONG).show();
+                    }
+                }
             }
         });
         myView.findViewById(R.id.btnRandomFade).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BluetoothHandler.getInstance().sendMode(LEDMOUDS.RANDOMFADE);
+                try {
+                    BluetoothHandler.getInstance().sendMode(LEDMOUDS.RANDOMFADE);
+                } catch (BluetoothHandlerException e) {
+                    if(e.getError() == BluetoothExceptions.BLUETOOTH_OFF){
+                        Toast.makeText(myView.getContext(), "Lamp not connected",Toast.LENGTH_LONG).show();
+                    }
+                }
             }
         });
         myView.findViewById(R.id.btnRainbow).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BluetoothHandler.getInstance().sendMode(LEDMOUDS.RAINBOW);
+                try {
+                    BluetoothHandler.getInstance().sendMode(LEDMOUDS.RAINBOW);
+                } catch (BluetoothHandlerException e) {
+                    if(e.getError() == BluetoothExceptions.BLUETOOTH_OFF){
+                        Toast.makeText(myView.getContext(), "Lamp not connected",Toast.LENGTH_LONG).show();
+                    }
+                }
             }
         });
         myView.findViewById(R.id.btnSoundToHeight).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BluetoothHandler.getInstance().sendMode(LEDMOUDS.SOUNDTOHEIGHT);
+                try {
+                    BluetoothHandler.getInstance().sendMode(LEDMOUDS.SOUNDTOHEIGHT);
+                } catch (BluetoothHandlerException e) {
+                    if(e.getError() == BluetoothExceptions.BLUETOOTH_OFF){
+                        Toast.makeText(myView.getContext(), "Lamp not connected",Toast.LENGTH_LONG).show();
+                    }
+                }
             }
         });
         myView.findViewById(R.id.btnSoundToBrightness).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BluetoothHandler.getInstance().sendMode(LEDMOUDS.SOUNDTOBRIGHTNESS);
+                try {
+                    BluetoothHandler.getInstance().sendMode(LEDMOUDS.SOUNDTOBRIGHTNESS);
+                } catch (BluetoothHandlerException e) {
+                    if(e.getError() == BluetoothExceptions.BLUETOOTH_OFF){
+                        Toast.makeText(myView.getContext(), "Lamp not connected",Toast.LENGTH_LONG).show();
+                    }
+                }
             }
         });
 

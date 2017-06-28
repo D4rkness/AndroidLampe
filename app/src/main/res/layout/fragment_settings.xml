@@ -6,22 +6,23 @@
     tools:context="com.example.olsk7422.lampe.Settings">
 
     <LinearLayout
-        android:layout_marginTop="@dimen/margintop"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="350dp"
+        android:layout_marginTop="@dimen/margintop"
         android:orientation="vertical"
         android:paddingLeft="@dimen/paddingsites"
         android:paddingRight="@dimen/paddingsites">
 
 
         <Button
-            android:text="Search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/btnSettingsSearch"
-            android:layout_weight="1" />
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:text="Search" />
 
         <ListView
+            android:id="@+id/lvSearchResult"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1" />

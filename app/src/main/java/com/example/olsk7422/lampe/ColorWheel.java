@@ -1,11 +1,14 @@
 package com.example.olsk7422.lampe;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.OpacityBar;
@@ -19,10 +22,11 @@ import com.larswerkman.holocolorpicker.ValueBar;
  */
 public class ColorWheel extends android.support.v4.app.Fragment {
 
-
+    private ColorPicker picker;
     public ColorWheel() {
         // Required empty public constructor
     }
+
 
     View myView;
 
@@ -31,33 +35,37 @@ public class ColorWheel extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.fragment_color_wheel, container, false);
         initPicker();
+        initBtn();
         return myView;
     }
 
     private void initPicker(){
-        ColorPicker picker = (ColorPicker) myView.findViewById(R.id.picker);
+        picker = (ColorPicker) myView.findViewById(R.id.picker);
         SaturationBar saturationBar = (SaturationBar) myView.findViewById(R.id.saturationbar);
         ValueBar valueBar = (ValueBar) myView.findViewById(R.id.valuebar);
         picker.setShowOldCenterColor(false);
         picker.addSaturationBar(saturationBar);
         picker.addValueBar(valueBar);
-
-        //To get the color
-        //picker.getColor();
-
-//To set the old selected color u can do it like this
-        //picker.setOldCenterColor(picker.getColor());
-// adds listener to the colorpicker which is implemented
-//in the activity
-        //picker.setOnColorChangedListener(myView);
-
-
-        //adding onChangeListeners to bars
-        /*
-        opacitybar.setOnOpacityChangeListener(new OnOpacityChangeListener …)
-        valuebar.setOnValueChangeListener(new OnValueChangeListener …)
-        saturationBar.setOnSaturationChangeListener(new OnSaturationChangeListener …)
-        */
     }
+
+    private void initBtn(){
+        myView.findViewById(R.id.btn_wheel_send).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int color = picker.getColor();
+                try {
+                    BluetoothHandler.getInstance().sendColor(Color.red(color),
+                                                    Color.green(color),Color.blue(color));
+                } catch (BluetoothHandlerException e) {
+                    if(e.getError() == BluetoothExceptions.NO_CONNECTION){
+                        Toast.makeText(myView.getContext(), "Lamp not connected",Toast.LENGTH_LONG).show();
+                    }
+                }
+
+            }
+        });
+    }
+
+
 
 }

@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Modus class the represents the mod screen
  */
 public class Modus extends android.support.v4.app.Fragment {
 
@@ -29,6 +29,9 @@ public class Modus extends android.support.v4.app.Fragment {
         return myView;
     }
 
+    /**
+     * Sets up the Buttons and connects them with the bluetoothandler module
+     */
     private void setupBtns(){
         myView.findViewById(R.id.btnSetAll).setOnClickListener(new View.OnClickListener() {
             @Override

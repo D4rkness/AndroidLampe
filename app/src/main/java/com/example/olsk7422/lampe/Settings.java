@@ -22,12 +22,13 @@ import java.util.Observer;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Settings class represents the Settings screen
  */
 public class Settings extends android.support.v4.app.Fragment implements Observer {
     ListView lv;
     View myView;
     Button btnStatus;
+
     public Settings() {
         // Required empty public constructor
     }
@@ -41,7 +42,11 @@ public class Settings extends android.support.v4.app.Fragment implements Observe
         return myView;
     }
 
-    private void initBtn(){
+    /**
+     * Initializes all buttons with a onClick listener
+     * an the Connection status button
+     */
+    private void initBtn() {
         btnStatus = (Button) myView.findViewById(R.id.btnSTatus);
         btnStatus.setBackgroundColor(Color.RED);
         btnStatus.setText("No Connection");
@@ -50,33 +55,36 @@ public class Settings extends android.support.v4.app.Fragment implements Observe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 try {
-                    Toast.makeText(myView.getContext(), "Trying to connect",Toast.LENGTH_LONG).show();
+                    Toast.makeText(myView.getContext(),
+                            "Trying to connect", Toast.LENGTH_LONG).show();
                     BluetoothHandler.getInstance().connect(position);
                 } catch (BluetoothHandlerException e) {
-                    if(e.getError() == BluetoothExceptions.NO_LAMP){
-                        Toast.makeText(myView.getContext(), "Ob du Behindert bist ? Das ist keine Lampe",Toast.LENGTH_LONG).show();
+                    if (e.getError() == BluetoothExceptions.NO_LAMP) {
+                        Toast.makeText(myView.getContext(),
+                                "Ob du Behindert bist ? Das ist keine Lampe",
+                                Toast.LENGTH_LONG).show();
                     }
                 }
             }
         });
+
         myView.findViewById(R.id.btnSettingsSearch).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     // bluetoothhandler returns search results if scan was successful
                     ArrayList scanResult = BluetoothHandler.getInstance().scan();
-                    ArrayAdapter adapter = new ArrayAdapter(myView.getContext(),android.R.layout.simple_list_item_1,scanResult);
+                    ArrayAdapter adapter = new ArrayAdapter(myView.getContext(),
+                            android.R.layout.simple_list_item_1, scanResult);
                     lv.setAdapter(adapter);
                 } catch (BluetoothHandlerException e) {
-                    if(e.getError() == BluetoothExceptions.BLUETOOTH_OFF){
-                        Toast.makeText(myView.getContext(), "Boi turn the bluetooth on",Toast.LENGTH_LONG).show();
+                    if (e.getError() == BluetoothExceptions.BLUETOOTH_OFF) {
+                        Toast.makeText(myView.getContext(), "Boi turn the bluetooth on",
+                                Toast.LENGTH_LONG).show();
                     }
-
                 }
             }
         });
-
-
     }
 
     @Override
@@ -85,16 +93,17 @@ public class Settings extends android.support.v4.app.Fragment implements Observe
 
         Runnable myRunnable = new Runnable() {
             @Override
-            public void run() {if(BluetoothHandler.getInstance().getIsConnected()){
-                btnStatus.setBackgroundColor(Color.GREEN);
-                btnStatus.setText("Connected");
-            }else{
-                btnStatus.setBackgroundColor(Color.RED);
-                btnStatus.setText("No Connection");
-            }}
+            public void run() {
+                if (BluetoothHandler.getInstance().getIsConnected()) {
+                    btnStatus.setBackgroundColor(Color.GREEN);
+                    btnStatus.setText("Connected");
+                } else {
+                    btnStatus.setBackgroundColor(Color.RED);
+                    btnStatus.setText("No Connection");
+                }
+            }
         };
         mainHandler.post(myRunnable);
-
 
 
     }

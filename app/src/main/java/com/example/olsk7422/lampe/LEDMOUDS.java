@@ -1,7 +1,7 @@
 package com.example.olsk7422.lampe;
 
 /**
- * Created by Miste on 27.06.2017.
+ * Enum that represents all available mods for the lamp
  */
 
 public enum LEDMOUDS {

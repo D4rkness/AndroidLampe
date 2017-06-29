@@ -18,7 +18,7 @@ import com.larswerkman.holocolorpicker.ValueBar;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment that represents the colorwheel screen
  */
 public class ColorWheel extends android.support.v4.app.Fragment {
 
@@ -39,6 +39,9 @@ public class ColorWheel extends android.support.v4.app.Fragment {
         return myView;
     }
 
+    /**
+     * Initializes the Colorpicker with the bars
+     */
     private void initPicker(){
         picker = (ColorPicker) myView.findViewById(R.id.picker);
         SaturationBar saturationBar = (SaturationBar) myView.findViewById(R.id.saturationbar);
@@ -48,6 +51,9 @@ public class ColorWheel extends android.support.v4.app.Fragment {
         picker.addValueBar(valueBar);
     }
 
+    /**
+     * Initializes the Button and connects it to bluetoothhandler
+     */
     private void initBtn(){
         myView.findViewById(R.id.btn_wheel_send).setOnClickListener(new View.OnClickListener() {
             @Override

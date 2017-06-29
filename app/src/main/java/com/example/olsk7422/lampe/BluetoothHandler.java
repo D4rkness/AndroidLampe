@@ -16,6 +16,9 @@ import java.util.Observable;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Bluetoothhandler class manages all connections to the lamp
+ */
 
 public class BluetoothHandler extends Observable {
 
@@ -33,6 +36,11 @@ public class BluetoothHandler extends Observable {
         BA = BluetoothAdapter.getDefaultAdapter();
     }
 
+    /**
+     * Establishes a connection to the lamp
+     * @param position position in the Arraylist to get the Name
+     * @throws BluetoothHandlerException Exception that gets called when not the lamp was selected
+     */
     public void connect(int position) throws BluetoothHandlerException {
         if(!connectionRunning){
             Log.d("BluetoothHandler:", "Connecting to: " + bluetoothDeviceListe.get(position));
@@ -52,11 +60,19 @@ public class BluetoothHandler extends Observable {
 
     }
 
+    /**
+     * disconnects from the lamp
+     */
     public void disconnect() {
         Log.d("BluetoothHandler:", "Disconnect has been triggerd");
 
     }
 
+    /**
+     * Methos that scans all available paired devices
+     * @return arraylist with all paired devices
+     * @throws BluetoothHandlerException exception that gets thrown when no bluetooth is enabled
+     */
     public ArrayList scan() throws BluetoothHandlerException {
         Log.d("BluetoothHandler:", "Scan has been triggerd");
         if (!BA.isEnabled()) {
@@ -77,11 +93,20 @@ public class BluetoothHandler extends Observable {
 
     }
 
-
+    /**
+     * @return if the device is connected to the lamp
+     */
     public boolean getIsConnected() {
         return isConnected;
     }
 
+    /**
+     * mathod that sends the values rgb value in json format to the lamp
+     * @param red   value of the red color
+     * @param blue  value of the blue color
+     * @param green value of the green color
+     * @throws BluetoothHandlerException gets thrown when no connection is available
+     */
     public void sendColor(int red, int blue, int green) throws BluetoothHandlerException {
         if (!isConnected) {
             Log.e("Bluetooth Color", "No connection! Can't send command");
@@ -102,6 +127,11 @@ public class BluetoothHandler extends Observable {
         }
     }
 
+    /**
+     * send a modus command in JSON format the lamp
+     * @param modus modus from the modus enum
+     * @throws BluetoothHandlerException when the device is not connected to the lamp
+     */
     public void sendMode(LEDMOUDS modus) throws BluetoothHandlerException {
         if (!isConnected) {
             Log.e("Bluetooth Mode", "No connection! Can't send command");
@@ -130,6 +160,9 @@ public class BluetoothHandler extends Observable {
         return instance;
     }
 
+    /**
+     * Thread that tries to connect to the lamp
+     */
     private class ConnectionThread extends Thread {
 
         BluetoothDevice btDevice;

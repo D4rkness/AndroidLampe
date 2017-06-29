@@ -28,7 +28,7 @@ public class Settings extends android.support.v4.app.Fragment implements Observe
     ListView lv;
     View myView;
     Button btnStatus;
-
+    boolean isConnected = false;
     public Settings() {
         // Required empty public constructor
     }
@@ -48,15 +48,20 @@ public class Settings extends android.support.v4.app.Fragment implements Observe
      */
     private void initBtn() {
         btnStatus = (Button) myView.findViewById(R.id.btnSTatus);
-        btnStatus.setBackgroundColor(Color.RED);
-        btnStatus.setText("No Connection");
+        if (isConnected) {
+            btnStatus.setBackgroundColor(Color.GREEN);
+            btnStatus.setText("Connected");
+        } else {
+            btnStatus.setBackgroundColor(Color.RED);
+            btnStatus.setText("No Connection");
+        }
         lv = (ListView) myView.findViewById(R.id.lvSearchResult);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 try {
                     Toast.makeText(myView.getContext(),
-                            "Trying to connect", Toast.LENGTH_LONG).show();
+                            "Trying to connect", Toast.LENGTH_SHORT).show();
                     BluetoothHandler.getInstance().connect(position);
                 } catch (BluetoothHandlerException e) {
                     if (e.getError() == BluetoothExceptions.NO_LAMP) {
@@ -80,7 +85,7 @@ public class Settings extends android.support.v4.app.Fragment implements Observe
                 } catch (BluetoothHandlerException e) {
                     if (e.getError() == BluetoothExceptions.BLUETOOTH_OFF) {
                         Toast.makeText(myView.getContext(), "Boi turn the bluetooth on",
-                                Toast.LENGTH_LONG).show();
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -94,7 +99,8 @@ public class Settings extends android.support.v4.app.Fragment implements Observe
         Runnable myRunnable = new Runnable() {
             @Override
             public void run() {
-                if (BluetoothHandler.getInstance().getIsConnected()) {
+                isConnected = BluetoothHandler.getInstance().getIsConnected();
+                if (isConnected) {
                     btnStatus.setBackgroundColor(Color.GREEN);
                     btnStatus.setText("Connected");
                 } else {

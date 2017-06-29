@@ -44,12 +44,12 @@ public class BluetoothHandler extends Observable {
     public void connect(int position) throws BluetoothHandlerException {
         if(!connectionRunning){
             Log.d("BluetoothHandler:", "Connecting to: " + bluetoothDeviceListe.get(position));
-            if (!bluetoothDeviceListe.get(position).equals("BA1")) {
+            if (!bluetoothDeviceListe.get(position).equals("Lampe")) {
                 throw new BluetoothHandlerException(BluetoothExceptions.NO_LAMP);
             }else{
                 BluetoothDevice device = null;
                 for(BluetoothDevice bt: pairedDevices){
-                    if(bt.getName().equals("BA1")){
+                    if(bt.getName().equals("Lampe")){
                         Log.d("BluetoothHandler","Connecting to: "+bt.getAddress());
                         new ConnectionThread(bt).start();
                         break;
@@ -102,27 +102,27 @@ public class BluetoothHandler extends Observable {
 
     /**
      * mathod that sends the values rgb value in json format to the lamp
-     * @param red   value of the red color
-     * @param blue  value of the blue color
-     * @param green value of the green color
      * @throws BluetoothHandlerException gets thrown when no connection is available
      */
-    public void sendColor(int red, int blue, int green) throws BluetoothHandlerException {
+    public void sendColor(String hexcolor) throws BluetoothHandlerException {
         if (!isConnected) {
             Log.e("Bluetooth Color", "No connection! Can't send command");
             throw new BluetoothHandlerException(BluetoothExceptions.NO_CONNECTION);
         } else {
-            Log.d("Bluetooth Color", "Red:" + red + " Blue:" + blue + " Green:" + green);
             JSONObject command = new JSONObject();
             try {
                 command.put("command","color");
-                command.put("red",red);
-                command.put("blue",red);
-                command.put("green",green);
+                command.put("value",hexcolor.substring(1));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             Log.d("JSON Color", command.toString());
+            try {
+                socket.getOutputStream().write(command.toString().getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
     }
@@ -147,6 +147,11 @@ public class BluetoothHandler extends Observable {
                 e.printStackTrace();
             }
             Log.d("Command", command.toString());
+            try {
+                socket.getOutputStream().write(command.toString().getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
 
@@ -176,6 +181,7 @@ public class BluetoothHandler extends Observable {
             try {
                 socket = btDevice.createInsecureRfcommSocketToServiceRecord(SPP_UUID);
                 socket.connect();
+                Log.d("Bluetoothhandler","connected");
                 isConnected = true;
                 setChanged();
                 notifyObservers();

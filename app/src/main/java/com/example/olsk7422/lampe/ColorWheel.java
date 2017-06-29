@@ -59,9 +59,10 @@ public class ColorWheel extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 int color = picker.getColor();
+                String hexColor = String.format("#%06X", (0xFFFFFF & color));
+                Log.d("color",hexColor);
                 try {
-                    BluetoothHandler.getInstance().sendColor(Color.red(color),
-                                                    Color.green(color),Color.blue(color));
+                    BluetoothHandler.getInstance().sendColor(hexColor);
                 } catch (BluetoothHandlerException e) {
                     if(e.getError() == BluetoothExceptions.NO_CONNECTION){
                         Toast.makeText(myView.getContext(), "Lamp not connected",Toast.LENGTH_LONG).show();

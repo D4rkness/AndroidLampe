@@ -68,6 +68,9 @@ public class Settings extends android.support.v4.app.Fragment implements Observe
                         Toast.makeText(myView.getContext(),
                                 "Ob du Behindert bist ? Das ist keine Lampe",
                                 Toast.LENGTH_LONG).show();
+                    }else if(e.getError() == BluetoothExceptions.IS_CONNECTED){
+                        Toast.makeText(myView.getContext(), "Banane ist schon verbunden!",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
             }

@@ -32,7 +32,7 @@ public class BluetoothHandler extends Observable {
     private boolean connectionRunning = false;
 
     public BluetoothHandler() {
-        isConnected = true;
+        isConnected = false;
         BA = BluetoothAdapter.getDefaultAdapter();
     }
 
@@ -42,21 +42,27 @@ public class BluetoothHandler extends Observable {
      * @throws BluetoothHandlerException Exception that gets called when not the lamp was selected
      */
     public void connect(int position) throws BluetoothHandlerException {
-        if(!connectionRunning){
-            Log.d("BluetoothHandler:", "Connecting to: " + bluetoothDeviceListe.get(position));
-            if (!bluetoothDeviceListe.get(position).equals("Lampe")) {
-                throw new BluetoothHandlerException(BluetoothExceptions.NO_LAMP);
-            }else{
-                BluetoothDevice device = null;
-                for(BluetoothDevice bt: pairedDevices){
-                    if(bt.getName().equals("Lampe")){
-                        Log.d("BluetoothHandler","Connecting to: "+bt.getAddress());
-                        new ConnectionThread(bt).start();
-                        break;
+        if(isConnected){
+            throw new BluetoothHandlerException(BluetoothExceptions.IS_CONNECTED);
+        }else{
+            if(!connectionRunning){
+                Log.d("BluetoothHandler:", "Connecting to: " + bluetoothDeviceListe.get(position));
+                if (!bluetoothDeviceListe.get(position).equals("Lampe")) {
+                    throw new BluetoothHandlerException(BluetoothExceptions.NO_LAMP);
+                }else{
+                    BluetoothDevice device = null;
+                    for(BluetoothDevice bt: pairedDevices){
+                        if(bt.getName().equals("Lampe")){
+                            Log.d("BluetoothHandler","Connecting to: "+bt.getAddress());
+                            new ConnectionThread(bt).start();
+                            break;
+                        }
                     }
                 }
             }
+
         }
+
 
     }
 
@@ -121,7 +127,10 @@ public class BluetoothHandler extends Observable {
             try {
                 socket.getOutputStream().write(command.toString().getBytes());
             } catch (IOException e) {
-                e.printStackTrace();
+                isConnected =false;
+                setChanged();
+                notifyObservers();
+                throw new BluetoothHandlerException(BluetoothExceptions.NO_CONNECTION);
             }
 
         }
@@ -150,7 +159,10 @@ public class BluetoothHandler extends Observable {
             try {
                 socket.getOutputStream().write(command.toString().getBytes());
             } catch (IOException e) {
-                e.printStackTrace();
+                isConnected =false;
+                setChanged();
+                notifyObservers();
+                throw new BluetoothHandlerException(BluetoothExceptions.NO_CONNECTION);
             }
 
         }
